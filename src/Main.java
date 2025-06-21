@@ -463,6 +463,8 @@ public class Main {
                     board[4][4].isRevealed();
                 }
                 break;
+            default:
+                break;
         }
     }
 
@@ -472,6 +474,62 @@ public class Main {
         int choice = input.nextInt();
 
         return choice;
+    }
+
+    public static void clearSurrounding(Tile[][] board, int choice){
+        // Reveal the surroundings too
+        // Checks in the loop iif it's equal to the input and if it is then it determines the board position with the i and j
+        // I predict the surroundings by subtracting things to get the position in 8 directions
+        // Subracted the startingSpot variable because it's 1 based but num is 0 based
+        int num = 0;
+
+        for(int i=0;i<5;i++){
+            for (int j =0;j<5;j++){
+                if (num == choice-1){
+                    try {
+                        board[i - 1][j].isClicked = true;
+                    } catch (Exception ArrayIndexOutOfBoundsException) {
+                    }
+
+                    try {
+                        board[i + 1][j].isClicked = true;
+                    } catch (Exception ArrayIndexOutOfBoundsException) {
+                    }
+
+                    try {
+                        board[i][j - 1].isClicked = true;
+                    } catch (Exception ArrayIndexOutOfBoundsException) {
+                    }
+
+                    try {
+                        board[i][j + 1].isClicked = true;
+                    } catch (Exception ArrayIndexOutOfBoundsException) {
+                    }
+
+                    try {
+                        board[i - 1][j - 1].isClicked = true;
+                    } catch (Exception ArrayIndexOutOfBoundsException) {
+                    }
+
+                    try {
+                        board[i + 1][j + 1].isClicked = true;
+                    } catch (Exception ArrayIndexOutOfBoundsException) {
+                    }
+
+                    try {
+                        board[i - 1][j + 1].isClicked = true;
+                    } catch (Exception ArrayIndexOutOfBoundsException) {
+                    }
+
+                    try {
+                        board[i + 1][j - 1].isClicked = true;
+                    } catch (Exception ArrayIndexOutOfBoundsException) {
+                    }
+                }
+                num++;
+
+            }
+        }
     }
 
     public static void main(String[] args){
@@ -488,11 +546,10 @@ public class Main {
 
         //New things to do below
 
-
-        //If you clicked on a 0 and there are other 0's besides it on 8 directions then reveal those 0's too
-        // (Partially done, just needs to clear the surrounding bombs right after clicking)Maybe make it so that at the first click it's always a normal tile. Would have to create the board after clicking though?
+        //June 21, 2025 to do:
+        //Current Goal )If you clicked on a 0 and there are other 0's besides it on 8 directions then reveal those 0's too
+        // (Done now) Maybe make it so that at the first click it's always a normal tile. Would have to create the board after clicking though?
         // Actually losing
-
 
 
         Tile[] tiles = new Tile[25];
@@ -518,17 +575,21 @@ public class Main {
         // Create the board
         createBoard(tiles, board, startingSpot);
 
+        // Input the players choice
         playerInput(board, startingSpot);
+
+        // Clear the surrounding of the first choice
+        clearSurrounding(board, startingSpot);
 
         //Display the board
         displayBoard(board);
 
 
-
         // Display some more info
-        for (Tile t : tiles){
-            t.displayInfo();
-        }
+
+        //for (Tile t : tiles){
+        //    t.displayInfo();
+        //}
 
         // Actually play the game
         for(int i=0;i<24;i++) {
