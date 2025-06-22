@@ -49,7 +49,6 @@ public class Main {
             for (int j =0;j<5;j++){
                 number = random.nextInt(0, 2);
 
-                System.out.println("The starting spot is: " + startingSpot);
                 if (number == 1 && bombNumber < bombLimit && !board[i][j].isClicked){
                     if (num != startingSpot && num != (startingSpot-6) && num != (startingSpot-5) && num != (startingSpot-4) && num != (startingSpot-1) && num != (startingSpot+1) && num != (startingSpot+4) && num != (startingSpot+5) && num != (startingSpot+6)) {
                         tiles[num] = new Tile(num, false, "Bomb");
@@ -69,88 +68,26 @@ public class Main {
     }
 
     public static void displayBoard(Tile[][] board){
-        // TO BE CONTINUED - NEEDS TO JUST USE THE FUNCTION CHECK BOMBS AND MAKE SURE THIS FUNCTION ONLY DISPLAY NOT CHANGE ANYTHING JUST DISPLAY
-        //Display Board
-        // The loop checks for surrounding tiles if there are bombs near it in 8 directions
+        //Displays the Board
+        // The loop checks for surrounding tiles if it was clicked or if there are bombs near it in 8 directions then prints it accordingly
+
         int num = 0;
         for(int i=0;i<5;i++){
             for (int j =0;j<5;j++){
-                int surroundingBombs = 0;
-                try {
-                    if (board[i - 1][j].tileType == "Bomb") {
-                        surroundingBombs++;
-                    }
-                }
-                catch (Exception ArrayIndexOutOfBoundsException) {
-                }
-                try {
-                    if (board[i + 1][j].tileType == "Bomb") {
-                        surroundingBombs++;
-                    }
-                }
-                catch (Exception ArrayIndexOutOfBoundsException) {
-                }
-                try {
-                    if (board[i][j - 1].tileType == "Bomb") {
-                        surroundingBombs++;
-                    }
-                }
-                catch (Exception ArrayIndexOutOfBoundsException) {
-                }
-                try {
-                    if (board[i][j + 1].tileType == "Bomb") {
-                        surroundingBombs++;
-                    }
-                }
-                catch (Exception ArrayIndexOutOfBoundsException) {
-                }
-                try {
-                    if (board[i - 1][j - 1].tileType == "Bomb") {
-                        surroundingBombs++;
-                    }
-                }
-                catch (Exception ArrayIndexOutOfBoundsException) {
-                }
-                try {
-                    if (board[i + 1][j + 1].tileType == "Bomb") {
-                        surroundingBombs++;
-                    }
-                }
-                catch (Exception ArrayIndexOutOfBoundsException) {
-                }
-                try {
-                    if (board[i - 1][j + 1].tileType == "Bomb") {
-                        surroundingBombs++;
-                    }
-                }
-                catch (Exception ArrayIndexOutOfBoundsException) {
-                }
-                try {
-                    if (board[i + 1][j - 1].tileType == "Bomb") {
-                        surroundingBombs++;
-                    }
-                }
-                catch (Exception ArrayIndexOutOfBoundsException) {
-                }
-
+                // Checks if the tile was clicked
                 if (board[i][j].isClicked){
                     if (board[i][j].tileType == "Bomb"){
                         System.out.print("@");
-                    } else if (surroundingBombs == 0) {
+                    } else if (checkSurroundingBombs(board, i, j) == 0) {
                         System.out.print("0");
-                        //TO BE CONTINUED
-                        clearSurrounding(board, i, j);
-                    } else if (surroundingBombs != 0) {
-                        System.out.print(surroundingBombs);
+                    } else if (checkSurroundingBombs(board, i, j) != 0) {
+                        System.out.print(checkSurroundingBombs(board, i, j));
                     }
                 } else {
                     System.out.print("=");
                 }
-                surroundingBombs = 0;
-                num++;
 
-                // Displays the index of bombs
-                //System.out.println("["+i+j+"}");
+                num++;
 
             }
             System.out.println("");
@@ -161,7 +98,7 @@ public class Main {
     // Need to find a way to combine this two to reduce redundancy and confusion. Should be named getInput
     public static void playerInput(Tile[][] board){
         Scanner input = new Scanner(System.in);
-        System.out.println("Pick 1-25:");
+        System.out.print("Pick 1-25 to reveal a tile: ");
         int choice = input.nextInt();
 
         switch (choice) {
@@ -319,7 +256,7 @@ public class Main {
     }
     public static int startingSpot(){
         Scanner input = new Scanner(System.in);
-        System.out.println("Pick 1-25:");
+        System.out.print("Pick 1-25 to reveal a tile: ");
         int choice = input.nextInt();
 
         return choice;
@@ -394,43 +331,87 @@ public class Main {
 
     public static void clearSurrounding(Tile[][] board, int row, int column){
         // Reveal the surroundings too by subtracting and adding the values of row and column to match the position of all the surrounding tiles in 8 directions
+        // Makes sure that the tile is not revealed yet before trying to do so
         try {
-            board[row - 1][column].isClicked = true;
+            if (board[row-1][column].isClicked == false){
+                board[row-1][column].isClicked = true;
+                //Checks if there is no surrounding bombs and if there is none then it clears the surrounding tiles and
+                // passes the row values to the same function and checks it infinitely until there is finally a bomb nearby
+
+                if (checkSurroundingBombs(board, row-1, column) == 0){
+                    clearSurrounding(board, row-1, column);
+                }
+            }
         } catch (Exception ArrayIndexOutOfBoundsException) {
         }
 
         try {
-            board[row + 1][column].isClicked = true;
+            if (board[row+1][column].isClicked == false){
+                board[row+1][column].isClicked = true;
+                if (checkSurroundingBombs(board, row+1, column) == 0){
+                    clearSurrounding(board, row+1, column);
+                }
+            }
         } catch (Exception ArrayIndexOutOfBoundsException) {
         }
 
         try {
-            board[row][column - 1].isClicked = true;
+            if (board[row][column-1].isClicked == false){
+                board[row][column-1].isClicked = true;
+                if (checkSurroundingBombs(board, row, column-1) == 0){
+                    clearSurrounding(board, row, column-1);
+                }
+            }
         } catch (Exception ArrayIndexOutOfBoundsException) {
         }
 
         try {
-            board[row][column + 1].isClicked = true;
+            if (board[row][column+1].isClicked == false){
+                board[row][column+1].isClicked = true;
+                if (checkSurroundingBombs(board, row, column+1) == 0){
+                    clearSurrounding(board, row, column+1);
+                }
+            }
         } catch (Exception ArrayIndexOutOfBoundsException) {
         }
 
         try {
-            board[row - 1][column - 1].isClicked = true;
+            if (board[row-1][column-1].isClicked == false){
+                board[row-1][column-1].isClicked = true;
+                if (checkSurroundingBombs(board, row-1, column-1) == 0){
+                    clearSurrounding(board, row-1, column-1);
+                }
+            }
         } catch (Exception ArrayIndexOutOfBoundsException) {
         }
 
         try {
-            board[row + 1][column + 1].isClicked = true;
+            if (board[row+1][column+1].isClicked == false){
+                board[row+1][column+1].isClicked = true;
+                if (checkSurroundingBombs(board, row+1, column+1) == 0){
+                    clearSurrounding(board, row+1, column+1);
+                }
+            }
         } catch (Exception ArrayIndexOutOfBoundsException) {
         }
 
         try {
-            board[row - 1][column + 1].isClicked = true;
+            if (board[row-1][column+1].isClicked == false){
+                board[row-1][column+1].isClicked = true;
+                if (checkSurroundingBombs(board, row-1, column+1) == 0){
+                    clearSurrounding(board, row-1, column+1);
+                }
+            }
         } catch (Exception ArrayIndexOutOfBoundsException) {
         }
 
         try {
-            board[row + 1][column - 1].isClicked = true;
+            if (board[row+1][column-1].isClicked == false){
+                board[row+1][column-1].isClicked = true;
+                if (checkSurroundingBombs(board, row+1, column-1) == 0){
+                    clearSurrounding(board, row+1, column-1);
+                }
+            }
         } catch (Exception ArrayIndexOutOfBoundsException) {
         }
 
@@ -451,15 +432,6 @@ public class Main {
                         clearSurrounding(board, i, j);
                     }
                 }
-            }
-        }
-    }
-
-    public static void checkZeroes(Tile[][] board, int row, int column){
-        int num = 0;
-        for(int i=0;i<5;i++) {
-            for (int j = 0; j < 5; j++) {
-
 
                 num++;
             }
@@ -473,19 +445,16 @@ public class Main {
         //Have a number on a tile based on how many bombs nearby
         //Tile with revealed and unrevealed state
 
-        // June 19, 2025 To do:
-        // Hide it all first then only show the number of surrounding bombs near it after clicking
 
-        // Done so far!!
 
-        //New things to do below
-
+        //New things to do below:
         //June 21, 2025 to do:
-        //Current Goal )If you clicked on a 0 and there are other 0's besides it on 8 directions then reveal those 0's too
-        //maybe try to scan through all of tiles and if they are 0 then clear the surroundings
+        //DONE: Current Goal: If you clicked on a 0 and there are other 0's besides it on 8 directions then reveal those 0's too
+        //DONE: maybe try to scan through all of tiles and if they are 0 then clear the surroundings(Probably not
 
-        // (Done now) Maybe make it so that at the first click it's always a normal tile. Would have to create the board after clicking though?
         // Actually losing
+
+        // Instead of using try and catch in order to not go out of bounds when checking surroundings, use if (row+-1 or column+-1 !< 0)
 
 
         Tile[] tiles = new Tile[25];
@@ -523,6 +492,7 @@ public class Main {
         //for (Tile t : tiles){
         //    t.displayInfo();
         //}
+
 
         // Actually play the game
         for(int i=0;i<24;i++) {
