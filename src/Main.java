@@ -94,167 +94,7 @@ public class Main {
         }
     }
 
-
-    // Need to find a way to combine this two to reduce redundancy and confusion. Should be named getInput
-    public static void playerInput(Tile[][] board){
-        Scanner input = new Scanner(System.in);
-        System.out.print("Pick 1-25 to reveal a tile: ");
-        int choice = input.nextInt();
-
-        switch (choice) {
-            case 1:
-                board[0][0].isClicked = true;
-                if (board[0][0].tileType == "Normal" || board[0][0].tileType == "Bomb"){
-                    board[0][0].isRevealed();
-                }
-                break;
-            case 2:
-                board[0][1].isClicked = true;
-                if (board[0][1].tileType == "Normal" || board[0][1].tileType == "Bomb"){
-                    board[0][1].isRevealed();
-                }
-                break;
-            case 3:
-                board[0][2].isClicked = true;
-                if (board[0][2].tileType == "Normal" || board[0][2].tileType == "Bomb"){
-                    board[0][2].isRevealed();
-                }
-                break;
-            case 4:
-                board[0][3].isClicked = true;
-                if (board[0][3].tileType == "Normal" || board[0][3].tileType == "Bomb"){
-                    board[0][3].isRevealed();
-                }
-                break;
-            case 5:
-                board[0][4].isClicked = true;
-                if (board[0][4].tileType == "Normal" || board[0][4].tileType == "Bomb"){
-                    board[0][4].isRevealed();
-                }
-                break;
-            case 6:
-                board[1][0].isClicked = true;
-                if (board[1][0].tileType == "Normal" || board[1][0].tileType == "Bomb"){
-                    board[1][0].isRevealed();
-                }
-                break;
-            case 7:
-                board[1][1].isClicked = true;
-                if (board[1][1].tileType == "Normal" || board[1][1].tileType == "Bomb"){
-                    board[1][1].isRevealed();
-                }
-                break;
-            case 8:
-                board[1][2].isClicked = true;
-                if (board[1][2].tileType == "Normal" || board[1][2].tileType == "Bomb"){
-                    board[1][2].isRevealed();
-                }
-                break;
-            case 9:
-                board[1][3].isClicked = true;
-                if (board[1][3].tileType == "Normal" || board[1][3].tileType == "Bomb"){
-                    board[1][3].isRevealed();
-                }
-                break;
-            case 10:
-                board[1][4].isClicked = true;
-                if (board[1][4].tileType == "Normal" || board[1][4].tileType == "Bomb"){
-                    board[1][4].isRevealed();
-                }
-                break;
-            case 11:
-                board[2][0].isClicked = true;
-                if (board[2][0].tileType == "Normal" || board[2][0].tileType == "Bomb"){
-                    board[2][0].isRevealed();
-                }
-                break;
-            case 12:
-                board[2][1].isClicked = true;
-                if (board[2][1].tileType == "Normal" || board[2][1].tileType == "Bomb"){
-                    board[2][1].isRevealed();
-                }
-                break;
-            case 13:
-                board[2][2].isClicked = true;
-                if (board[2][2].tileType == "Normal" || board[2][2].tileType == "Bomb"){
-                    board[2][2].isRevealed();
-                }
-                break;
-            case 14:
-                board[2][3].isClicked = true;
-                if (board[2][3].tileType == "Normal" || board[2][3].tileType == "Bomb"){
-                    board[2][3].isRevealed();
-                }
-                break;
-            case 15:
-                board[2][4].isClicked = true;
-                if (board[2][4].tileType == "Normal" || board[2][4].tileType == "Bomb"){
-                    board[2][4].isRevealed();
-                }
-                break;
-            case 16:
-                board[3][0].isClicked = true;
-                if (board[3][0].tileType == "Normal" || board[3][0].tileType == "Bomb"){
-                    board[3][0].isRevealed();
-                }
-                break;
-            case 17:
-                board[3][1].isClicked = true;
-                if (board[3][1].tileType == "Normal" || board[3][1].tileType == "Bomb"){
-                    board[3][1].isRevealed();
-                }
-                break;
-            case 18:
-                board[3][2].isClicked = true;
-                if (board[3][2].tileType == "Normal" || board[3][2].tileType == "Bomb"){
-                    board[3][2].isRevealed();
-                }
-                break;
-            case 19:
-                board[3][3].isClicked = true;
-                if (board[3][3].tileType == "Normal" || board[3][3].tileType == "Bomb"){
-                    board[3][3].isRevealed();
-                }
-                break;
-            case 20:
-                board[3][4].isClicked = true;
-                if (board[3][4].tileType == "Normal" || board[3][4].tileType == "Bomb"){
-                    board[3][4].isRevealed();
-                }
-                break;
-            case 21:
-                board[4][0].isClicked = true;
-                if (board[4][0].tileType == "Normal" || board[4][0].tileType == "Bomb"){
-                    board[4][0].isRevealed();
-                }
-                break;
-            case 22:
-                board[4][1].isClicked = true;
-                if (board[4][1].tileType == "Normal" || board[4][1].tileType == "Bomb"){
-                    board[4][1].isRevealed();
-                }
-                break;
-            case 23:
-                board[4][2].isClicked = true;
-                if (board[4][2].tileType == "Normal" || board[4][2].tileType == "Bomb"){
-                    board[4][2].isRevealed();
-                }
-                break;
-            case 24:
-                board[4][3].isClicked = true;
-                if (board[4][3].tileType == "Normal" || board[4][3].tileType == "Bomb"){
-                    board[4][3].isRevealed();
-                }
-                break;
-            case 25:
-                board[4][4].isClicked = true;
-                if (board[4][4].tileType == "Normal" || board[4][4].tileType == "Bomb"){
-                    board[4][4].isRevealed();
-                }
-                break;
-        }
-    }
-    public static int startingSpot(){
+    public static int playerInput(){
         Scanner input = new Scanner(System.in);
         System.out.print("Pick 1-25 to reveal a tile: ");
         int choice = input.nextInt();
@@ -262,7 +102,26 @@ public class Main {
         return choice;
     }
 
+    public static void tileInput(Tile[][] board, int choice){
+        // Loops and compares the num to the choice and if they are the same then the nested for loop's value will determine the tile's position on the board
+        // choice-1 because it's 1 based but num is 0 based
 
+        int num = 0;
+
+        for (int i=0;i<5;i++){
+            for (int j=0;j<5;j++){
+                if (num == choice-1){
+                    board[i][j].isClicked = true;
+                    // Checks if there is surrounding bombs near the input and if there is none then you just clear everything around it on 8 directions
+                    if (checkSurroundingBombs(board, i, j) == 0){
+                        clearSurrounding(board, i, j);
+                    }
+                }
+
+                num++;
+            }
+        }
+    }
 
     public static int checkSurroundingBombs(Tile[][] board, int row, int column){
         // Check the surrounding by subtracting and adding the values of row and column to match the position of all the surrounding tiles in 8 directions
@@ -417,25 +276,29 @@ public class Main {
 
     }
 
-    public static void tileInput(Tile[][] board, int choice){
-        // Loops and compares the num to the choice and if they are the same then the nested for loop's value will determine the tile's position on the board
-        // choice-1 because it's 1 based but num is 0 based
+    public static boolean winLose(Tile[][] board){
+        boolean gameOver = false;
+        boolean win = false;
+        int revealTotal = 0;
+
 
         int num = 0;
-
         for (int i=0;i<5;i++){
             for (int j=0;j<5;j++){
-                if (num == choice-1){
-                    board[i][j].isClicked = true;
-                    // Checks if there is surrounding bombs near the input and if there is none then you just clear everything around it on 8 directions
-                    if (checkSurroundingBombs(board, i, j) == 0){
-                        clearSurrounding(board, i, j);
+                if (board[i][j].tileType == "Bomb" && board[i][j].isClicked == true){
+                    gameOver = true;
+                    return gameOver;
+                } else if (board[i][j].isClicked == true){
+                    revealTotal++;
+                    if (revealTotal <= 25){
+                        return win;
                     }
                 }
 
                 num++;
             }
         }
+        return gameOver;
     }
 
     public static void main(String[] args){
@@ -448,13 +311,16 @@ public class Main {
 
 
         //New things to do below:
-        //June 21, 2025 to do:
+        //June 22, 2025 to do:
         //DONE: Current Goal: If you clicked on a 0 and there are other 0's besides it on 8 directions then reveal those 0's too
         //DONE: maybe try to scan through all of tiles and if they are 0 then clear the surroundings(Probably not
 
         // Actually losing
 
         // Instead of using try and catch in order to not go out of bounds when checking surroundings, use if (row+-1 or column+-1 !< 0)
+
+        // June 23, 2025 to do:
+        // fix the use of objects and improve the overall cleanliness of the code
 
 
         Tile[] tiles = new Tile[25];
@@ -475,13 +341,15 @@ public class Main {
 
         System.out.println("");
 
-        int startingSpot = startingSpot();
+
+        // Put in in a variable so it doesn't ask for the input again after declaring the function
+        int firstChoice = playerInput();
 
         // Create the board
-        createBoard(tiles, board, startingSpot);
+        createBoard(tiles, board, firstChoice);
 
         // Input the players choice
-        tileInput(board, startingSpot);
+        tileInput(board, firstChoice);
 
         //Display the board
         displayBoard(board);
@@ -497,7 +365,7 @@ public class Main {
         // Actually play the game
         for(int i=0;i<24;i++) {
             //Ask for player input and actually play the game
-            playerInput(board);
+            tileInput(board, playerInput());
 
             //Display the board
             displayBoard(board);
