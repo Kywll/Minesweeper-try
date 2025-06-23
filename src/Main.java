@@ -76,7 +76,7 @@ public class Main {
             for (int j =0;j<5;j++){
                 // Checks if the tile was clicked
                 if (board[i][j].isClicked){
-                    if (board[i][j].tileType == "Bomb"){
+                    if (board[i][j].tileType.equals("Bomb")){
                         System.out.print("@");
                     } else if (checkSurroundingBombs(board, i, j) == 0) {
                         System.out.print("0");
@@ -90,7 +90,7 @@ public class Main {
                 num++;
 
             }
-            System.out.println("");
+            System.out.println();
         }
     }
 
@@ -125,60 +125,63 @@ public class Main {
 
     public static int checkSurroundingBombs(Tile[][] board, int row, int column){
         // Check the surrounding by subtracting and adding the values of row and column to match the position of all the surrounding tiles in 8 directions
+        // TO BE DONE
+        // Instead of using try and catch in order to not go out of bounds when checking surroundings, use if (row+-1 or column+-1 !< 0)
+
 
         int surroundingBombs = 0;
 
         try {
-            if (board[row - 1][column].tileType == "Bomb") {
+            if (board[row - 1][column].tileType.equals("Bomb")) {
                 surroundingBombs++;
             }
         }
         catch (Exception ArrayIndexOutOfBoundsException) {
         }
         try {
-            if (board[row + 1][column].tileType == "Bomb") {
+            if (board[row + 1][column].tileType.equals("Bomb")) {
                 surroundingBombs++;
             }
         }
         catch (Exception ArrayIndexOutOfBoundsException) {
         }
         try {
-            if (board[row][column - 1].tileType == "Bomb") {
+            if (board[row][column - 1].tileType.equals("Bomb")) {
                 surroundingBombs++;
             }
         }
         catch (Exception ArrayIndexOutOfBoundsException) {
         }
         try {
-            if (board[row][column + 1].tileType == "Bomb") {
+            if (board[row][column + 1].tileType.equals("Bomb")) {
                 surroundingBombs++;
             }
         }
         catch (Exception ArrayIndexOutOfBoundsException) {
         }
         try {
-            if (board[row - 1][column - 1].tileType == "Bomb") {
+            if (board[row - 1][column - 1].tileType.equals("Bomb")) {
                 surroundingBombs++;
             }
         }
         catch (Exception ArrayIndexOutOfBoundsException) {
         }
         try {
-            if (board[row + 1][column + 1].tileType == "Bomb") {
+            if (board[row + 1][column + 1].tileType.equals("Bomb")) {
                 surroundingBombs++;
             }
         }
         catch (Exception ArrayIndexOutOfBoundsException) {
         }
         try {
-            if (board[row - 1][column + 1].tileType == "Bomb") {
+            if (board[row - 1][column + 1].tileType.equals("Bomb")) {
                 surroundingBombs++;
             }
         }
         catch (Exception ArrayIndexOutOfBoundsException) {
         }
         try {
-            if (board[row + 1][column - 1].tileType == "Bomb") {
+            if (board[row + 1][column - 1].tileType.equals("Bomb")) {
                 surroundingBombs++;
             }
         }
@@ -192,7 +195,7 @@ public class Main {
         // Reveal the surroundings too by subtracting and adding the values of row and column to match the position of all the surrounding tiles in 8 directions
         // Makes sure that the tile is not revealed yet before trying to do so
         try {
-            if (board[row-1][column].isClicked == false){
+            if (!board[row-1][column].isClicked){
                 board[row-1][column].isClicked = true;
                 //Checks if there is no surrounding bombs and if there is none then it clears the surrounding tiles and
                 // passes the row values to the same function and checks it infinitely until there is finally a bomb nearby
@@ -205,7 +208,7 @@ public class Main {
         }
 
         try {
-            if (board[row+1][column].isClicked == false){
+            if (!board[row+1][column].isClicked){
                 board[row+1][column].isClicked = true;
                 if (checkSurroundingBombs(board, row+1, column) == 0){
                     clearSurrounding(board, row+1, column);
@@ -215,7 +218,7 @@ public class Main {
         }
 
         try {
-            if (board[row][column-1].isClicked == false){
+            if (!board[row][column-1].isClicked){
                 board[row][column-1].isClicked = true;
                 if (checkSurroundingBombs(board, row, column-1) == 0){
                     clearSurrounding(board, row, column-1);
@@ -225,7 +228,7 @@ public class Main {
         }
 
         try {
-            if (board[row][column+1].isClicked == false){
+            if (!board[row][column+1].isClicked){
                 board[row][column+1].isClicked = true;
                 if (checkSurroundingBombs(board, row, column+1) == 0){
                     clearSurrounding(board, row, column+1);
@@ -235,7 +238,7 @@ public class Main {
         }
 
         try {
-            if (board[row-1][column-1].isClicked == false){
+            if (!board[row-1][column-1].isClicked){
                 board[row-1][column-1].isClicked = true;
                 if (checkSurroundingBombs(board, row-1, column-1) == 0){
                     clearSurrounding(board, row-1, column-1);
@@ -245,7 +248,7 @@ public class Main {
         }
 
         try {
-            if (board[row+1][column+1].isClicked == false){
+            if (!board[row+1][column+1].isClicked){
                 board[row+1][column+1].isClicked = true;
                 if (checkSurroundingBombs(board, row+1, column+1) == 0){
                     clearSurrounding(board, row+1, column+1);
@@ -255,7 +258,7 @@ public class Main {
         }
 
         try {
-            if (board[row-1][column+1].isClicked == false){
+            if (!board[row-1][column+1].isClicked){
                 board[row-1][column+1].isClicked = true;
                 if (checkSurroundingBombs(board, row-1, column+1) == 0){
                     clearSurrounding(board, row-1, column+1);
@@ -265,7 +268,7 @@ public class Main {
         }
 
         try {
-            if (board[row+1][column-1].isClicked == false){
+            if (!board[row+1][column-1].isClicked){
                 board[row+1][column-1].isClicked = true;
                 if (checkSurroundingBombs(board, row+1, column-1) == 0){
                     clearSurrounding(board, row+1, column-1);
@@ -286,22 +289,22 @@ public class Main {
         int num = 0;
         for (int i=0;i<5;i++){
             for (int j=0;j<5;j++){
-                if (winLose != "Lose" && winLose != "Win") {
+                if (!winLose.equals("Lose") && !winLose.equals("Win")) {
                     // Loops through all tiles and check if a bomb has been clicked
-                    if (board[i][j].tileType == "Bomb" && board[i][j].isClicked == true) {
+                    if (board[i][j].tileType.equals("Bomb") && board[i][j].isClicked) {
                         winLose = "Lose";
-                        System.out.println("");
+                        System.out.println();
                         revealBombs(board);
                         displayBoard(board);
                         System.out.println("You lost");
                         break;
                     }
                     // If not a bomb then it adds to reveal total and if it reached 20 which means all tiles has been revealed that is not a bomb then it returns a win
-                    else if (board[i][j].isClicked == true && board[i][j].tileType == "Normal") {
+                    else if (board[i][j].isClicked && board[i][j].tileType.equals("Normal")) {
                         revealTotal++;
                         if (revealTotal >= 20) {
                             winLose = "Win";
-                            System.out.println("");
+                            System.out.println();
                             revealBombs(board);
                             displayBoard(board);
                             System.out.println("You won");
@@ -323,7 +326,7 @@ public class Main {
         for(int i=0;i<5;i++){
             for(int j=0;j<5;j++){
                 //Checks if it's a bomb then reveals it
-                if(board[i][j].isClicked == false && board[i][j].tileType.equals("Bomb")){
+                if(!board[i][j].isClicked && board[i][j].tileType.equals("Bomb")){
                     board[i][j].isClicked = true;
                 }
 
@@ -341,7 +344,7 @@ public class Main {
         //Tile with revealed and unrevealed state
 
 
-        // Instead of using try and catch in order to not go out of bounds when checking surroundings, use if (row+-1 or column+-1 !< 0)
+
         // implement .equals() to string comparisons
 
         // June 23, 2025 to do:
@@ -358,13 +361,13 @@ public class Main {
                 System.out.print("=");
 
             }
-            System.out.println("");
+            System.out.println();
         }
 
         // Sample Board
         sampleBoard(tiles, board);
 
-        System.out.println("");
+        System.out.println();
 
 
         // Put in in a variable so it doesn't ask for the input again after declaring the function
