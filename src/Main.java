@@ -276,30 +276,62 @@ public class Main {
 
     }
 
-    public static boolean winLose(Tile[][] board){
-        boolean gameOver = false;
-        boolean win = false;
-        int revealTotal = 0;
+    public static String winLose(Tile[][] board){
+        // Checks for win or lose
 
+        String winLose = "None";
+
+        int revealTotal = 0;
 
         int num = 0;
         for (int i=0;i<5;i++){
             for (int j=0;j<5;j++){
-                if (board[i][j].tileType == "Bomb" && board[i][j].isClicked == true){
-                    gameOver = true;
-                    return gameOver;
-                } else if (board[i][j].isClicked == true){
-                    revealTotal++;
-                    if (revealTotal <= 25){
-                        return win;
+                if (winLose != "Lose" && winLose != "Win") {
+                    // Loops through all tiles and check if a bomb has been clicked
+                    if (board[i][j].tileType == "Bomb" && board[i][j].isClicked == true) {
+                        winLose = "Lose";
+                        System.out.println("");
+                        revealBombs(board);
+                        displayBoard(board);
+                        System.out.println("You lost");
+                        break;
+                    }
+                    // If not a bomb then it adds to reveal total and if it reached 20 which means all tiles has been revealed that is not a bomb then it returns a win
+                    else if (board[i][j].isClicked == true && board[i][j].tileType == "Normal") {
+                        revealTotal++;
+                        if (revealTotal >= 20) {
+                            winLose = "Win";
+                            System.out.println("");
+                            revealBombs(board);
+                            displayBoard(board);
+                            System.out.println("You won");
+                            break;
+                        }
                     }
                 }
 
                 num++;
             }
         }
-        return gameOver;
+        return winLose;
     }
+
+    public static void revealBombs(Tile[][] board){
+        // Reveals all the bombs
+        int num = 0;
+
+        for(int i=0;i<5;i++){
+            for(int j=0;j<5;j++){
+                //Checks if it's a bomb then reveals it
+                if(board[i][j].isClicked == false && board[i][j].tileType.equals("Bomb")){
+                    board[i][j].isClicked = true;
+                }
+
+                num++;
+            }
+        }
+    }
+
 
     public static void main(String[] args){
         //Thought Process
@@ -309,15 +341,8 @@ public class Main {
         //Tile with revealed and unrevealed state
 
 
-
-        //New things to do below:
-        //June 22, 2025 to do:
-        //DONE: Current Goal: If you clicked on a 0 and there are other 0's besides it on 8 directions then reveal those 0's too
-        //DONE: maybe try to scan through all of tiles and if they are 0 then clear the surroundings(Probably not
-
-        // Actually losing
-
         // Instead of using try and catch in order to not go out of bounds when checking surroundings, use if (row+-1 or column+-1 !< 0)
+        // implement .equals() to string comparisons
 
         // June 23, 2025 to do:
         // fix the use of objects and improve the overall cleanliness of the code
@@ -364,11 +389,19 @@ public class Main {
 
         // Actually play the game
         for(int i=0;i<24;i++) {
-            //Ask for player input and actually play the game
-            tileInput(board, playerInput());
+            // Check if you've won
+            String winLoseStatus = winLose(board);
+            if (!winLoseStatus.equals("Win") && !winLoseStatus.equals("Lose")){
+                //Ask for player input and actually play the game
+                tileInput(board, playerInput());
 
-            //Display the board
-            displayBoard(board);
+                //Display the board
+                displayBoard(board);
+            }
+            else{
+                // Ends the game if the play has won or lost
+                break;
+            }
         }
     }
 }
