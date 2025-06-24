@@ -1,17 +1,11 @@
 import java.util.Random;
 
 public class Board {
-    // TO BECONTINUED
-    // JUST REMOVE THE TILE AND USE THE BOARD EXCLUSIVELY
-    // Use .reveal(); instead
-
     int boardWidth;
     int boardHeight;
 
 
     // Access the Tiles
-    Tile[] tiles = new Tile[25];
-
     Tile[][] board = new Tile[5][5];
 
     // BOARD SETUP
@@ -20,12 +14,10 @@ public class Board {
         //Make sample board
         for(int i=0;i<5;i++){
             for (int j =0;j<5;j++){
+                // Create an object inside a 2d array on each iteration and uses the values of i and j to fill out the 2d array
+                board[i][j] = new NormalTile(num, false);
 
-                tiles[num] = new NormalTile(num, false);
-
-                board[i][j] = tiles[num];
-
-                num = num + 1;
+                num++;
             }
         }
     }
@@ -56,12 +48,10 @@ public class Board {
                     // Adds bombs on tiles that is not around the tile that was clicked first
                     if (num != startingSpot && num != (startingSpot-6) && num != (startingSpot-5) && num != (startingSpot-4) && num != (startingSpot-1) && num != (startingSpot+1) && num != (startingSpot+4) && num != (startingSpot+5) && num != (startingSpot+6)) {
                         // Adds a bomb on the current tile
-                        tiles[num] = new BombTile(num, false);
+                        board[i][j] = new BombTile(num, false);
                         bombNumber++;
                     }
                 }
-
-                board[i][j] = tiles[num];
 
                 num++;
             }
@@ -106,7 +96,7 @@ public class Board {
         for (int i=0;i<5;i++){
             for (int j=0;j<5;j++){
                 if (num == choice-1){
-                    board[i][j].isClicked = true;
+                    board[i][j].revealTile();
                     // Checks if there is surrounding bombs near the input and if there is none then you just clear everything around it on 8 directions
                     if (checkSurroundingBombs(i, j) == 0){
                         clearSurrounding(i, j);
@@ -166,7 +156,7 @@ public class Board {
             for(int j=0;j<5;j++){
                 //Checks if it's a bomb then reveals it
                 if(!board[i][j].isClicked && board[i][j].isBomb()){
-                    board[i][j].isClicked = true;
+                    board[i][j].revealTile();
                 }
 
                 num++;
@@ -220,7 +210,7 @@ public class Board {
             if (newRow >= 0 && newRow < 5 && newColumn >= 0 && newColumn < 5){
                 // Makes sure that the tile is not revealed yet before trying to do so
                 if (!board[newRow][newColumn].isClicked){
-                    board[newRow][newColumn].isClicked = true;
+                    board[newRow][newColumn].revealTile();
                     //Checks if there is no surrounding bombs and if there is none then it clears the surrounding tiles and
                     // passes the row values to the same function and checks it infinitely until there is finally a bomb nearby
                     if (checkSurroundingBombs(newRow, newColumn) == 0){
