@@ -1,3 +1,4 @@
+import java.util.Dictionary;
 import java.util.Scanner;
 import java.util.Random;
 
@@ -124,159 +125,59 @@ public class Main {
     }
 
     public static int checkSurroundingBombs(Tile[][] board, int row, int column){
-        // Check the surrounding by subtracting and adding the values of row and column to match the position of all the surrounding tiles in 8 directions
-        // TO BE DONE
-        // Instead of using try and catch in order to not go out of bounds when checking surroundings, use if (row+-1 or column+-1 !< 0)
+        // Placed the directions of the coordinates for the board positions around the selected tile.
+        // Did it by placing the possible row and columns and matching it in arrays.
+        // So it's basically something like board[row-1][column] but instead you just predict the position at the start immediately
+        // Then you access the index of the directions and it's already matched
 
+        int[] rowDirection = {-1, -1, -1, 0, 0, 1, 1, 1};
+        int[] columnDirection= {-1, 0, 1, -1, 1, -1, 0, 1};
 
         int surroundingBombs = 0;
 
-        try {
-            if (board[row - 1][column].tileType.equals("Bomb")) {
-                surroundingBombs++;
+        for (int i=0;i<8;i++){
+            //pre added the positions
+            int newRow = row + rowDirection[i];
+            int newColumn = column + columnDirection[i];
+
+            //Checks for out of bounds and not even try to bother checking if it's out of bounds to prevent errors
+            if (newRow >= 0 && newRow < 5 && newColumn >= 0 && newColumn < 5){
+                // Adds 1 to surrounding bombs if there is one
+                if (board[newRow][newColumn].tileType.equals("Bomb")){
+                    surroundingBombs++;
+                }
             }
-        }
-        catch (Exception ArrayIndexOutOfBoundsException) {
-        }
-        try {
-            if (board[row + 1][column].tileType.equals("Bomb")) {
-                surroundingBombs++;
-            }
-        }
-        catch (Exception ArrayIndexOutOfBoundsException) {
-        }
-        try {
-            if (board[row][column - 1].tileType.equals("Bomb")) {
-                surroundingBombs++;
-            }
-        }
-        catch (Exception ArrayIndexOutOfBoundsException) {
-        }
-        try {
-            if (board[row][column + 1].tileType.equals("Bomb")) {
-                surroundingBombs++;
-            }
-        }
-        catch (Exception ArrayIndexOutOfBoundsException) {
-        }
-        try {
-            if (board[row - 1][column - 1].tileType.equals("Bomb")) {
-                surroundingBombs++;
-            }
-        }
-        catch (Exception ArrayIndexOutOfBoundsException) {
-        }
-        try {
-            if (board[row + 1][column + 1].tileType.equals("Bomb")) {
-                surroundingBombs++;
-            }
-        }
-        catch (Exception ArrayIndexOutOfBoundsException) {
-        }
-        try {
-            if (board[row - 1][column + 1].tileType.equals("Bomb")) {
-                surroundingBombs++;
-            }
-        }
-        catch (Exception ArrayIndexOutOfBoundsException) {
-        }
-        try {
-            if (board[row + 1][column - 1].tileType.equals("Bomb")) {
-                surroundingBombs++;
-            }
-        }
-        catch (Exception ArrayIndexOutOfBoundsException) {
         }
 
         return surroundingBombs;
     }
 
     public static void clearSurrounding(Tile[][] board, int row, int column){
-        // Reveal the surroundings too by subtracting and adding the values of row and column to match the position of all the surrounding tiles in 8 directions
-        // Makes sure that the tile is not revealed yet before trying to do so
-        try {
-            if (!board[row-1][column].isClicked){
-                board[row-1][column].isClicked = true;
-                //Checks if there is no surrounding bombs and if there is none then it clears the surrounding tiles and
-                // passes the row values to the same function and checks it infinitely until there is finally a bomb nearby
+        // Placed the directions of the coordinates for the board positions around the selected tile.
+        // Did it by placing the possible row and columns and matching it in arrays.
+        // So it's basically something like board[row-1][column] but instead you just predict the position at the start immediately
+        // Then you access the index of the directions and it's already matched
 
-                if (checkSurroundingBombs(board, row-1, column) == 0){
-                    clearSurrounding(board, row-1, column);
+        int[] rowDirection = {-1, -1, -1, 0, 0, 1, 1, 1};
+        int[] columnDirection = {-1, 0, 1, -1, 1, -1, 0, 1};
+
+        for (int i=0;i<8;i++){
+            int newRow = row + rowDirection[i];
+            int newColumn =column + columnDirection[i];
+
+            //Checks for out of bounds and not even try to bother checking if it's out of bounds to prevent errors
+            if (newRow >= 0 && newRow < 5 && newColumn >= 0 && newColumn < 5){
+                // Makes sure that the tile is not revealed yet before trying to do so
+                if (!board[newRow][newColumn].isClicked){
+                    board[newRow][newColumn].isClicked = true;
+                    //Checks if there is no surrounding bombs and if there is none then it clears the surrounding tiles and
+                    // passes the row values to the same function and checks it infinitely until there is finally a bomb nearby
+                    if (checkSurroundingBombs(board, newRow, newColumn) == 0){
+                        clearSurrounding(board, newRow, newColumn);
+                    }
                 }
             }
-        } catch (Exception ArrayIndexOutOfBoundsException) {
         }
-
-        try {
-            if (!board[row+1][column].isClicked){
-                board[row+1][column].isClicked = true;
-                if (checkSurroundingBombs(board, row+1, column) == 0){
-                    clearSurrounding(board, row+1, column);
-                }
-            }
-        } catch (Exception ArrayIndexOutOfBoundsException) {
-        }
-
-        try {
-            if (!board[row][column-1].isClicked){
-                board[row][column-1].isClicked = true;
-                if (checkSurroundingBombs(board, row, column-1) == 0){
-                    clearSurrounding(board, row, column-1);
-                }
-            }
-        } catch (Exception ArrayIndexOutOfBoundsException) {
-        }
-
-        try {
-            if (!board[row][column+1].isClicked){
-                board[row][column+1].isClicked = true;
-                if (checkSurroundingBombs(board, row, column+1) == 0){
-                    clearSurrounding(board, row, column+1);
-                }
-            }
-        } catch (Exception ArrayIndexOutOfBoundsException) {
-        }
-
-        try {
-            if (!board[row-1][column-1].isClicked){
-                board[row-1][column-1].isClicked = true;
-                if (checkSurroundingBombs(board, row-1, column-1) == 0){
-                    clearSurrounding(board, row-1, column-1);
-                }
-            }
-        } catch (Exception ArrayIndexOutOfBoundsException) {
-        }
-
-        try {
-            if (!board[row+1][column+1].isClicked){
-                board[row+1][column+1].isClicked = true;
-                if (checkSurroundingBombs(board, row+1, column+1) == 0){
-                    clearSurrounding(board, row+1, column+1);
-                }
-            }
-        } catch (Exception ArrayIndexOutOfBoundsException) {
-        }
-
-        try {
-            if (!board[row-1][column+1].isClicked){
-                board[row-1][column+1].isClicked = true;
-                if (checkSurroundingBombs(board, row-1, column+1) == 0){
-                    clearSurrounding(board, row-1, column+1);
-                }
-            }
-        } catch (Exception ArrayIndexOutOfBoundsException) {
-        }
-
-        try {
-            if (!board[row+1][column-1].isClicked){
-                board[row+1][column-1].isClicked = true;
-                if (checkSurroundingBombs(board, row+1, column-1) == 0){
-                    clearSurrounding(board, row+1, column-1);
-                }
-            }
-        } catch (Exception ArrayIndexOutOfBoundsException) {
-        }
-
     }
 
     public static String winLose(Tile[][] board){
@@ -335,19 +236,16 @@ public class Main {
         }
     }
 
-
     public static void main(String[] args){
-        //Thought Process
+        //Thought Process:
         //Make a Game Board where you can detect surroundings
         //Have Random Bombs
         //Have a number on a tile based on how many bombs nearby
         //Tile with revealed and unrevealed state
 
 
-
-        // implement .equals() to string comparisons
-
-        // June 23, 2025 to do:
+        // TO DO:
+        // June 23, 2025 to do until June 25, 2025:
         // fix the use of objects and improve the overall cleanliness of the code
 
 
