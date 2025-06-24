@@ -1,4 +1,3 @@
-import java.util.Dictionary;
 import java.util.Scanner;
 import java.util.Random;
 
@@ -50,8 +49,11 @@ public class Main {
             for (int j =0;j<5;j++){
                 number = random.nextInt(0, 2);
 
+                // If 1 then make a bomb
                 if (number == 1 && bombNumber < bombLimit && !board[i][j].isClicked){
+                    // Adds bombs on tiles that is not around the tile that was clicked first
                     if (num != startingSpot && num != (startingSpot-6) && num != (startingSpot-5) && num != (startingSpot-4) && num != (startingSpot-1) && num != (startingSpot+1) && num != (startingSpot+4) && num != (startingSpot+5) && num != (startingSpot+6)) {
+                        // Adds a bomb on the current tile
                         tiles[num] = new Tile(num, false, "Bomb");
                         bombNumber++;
                     }
@@ -73,6 +75,7 @@ public class Main {
         // The loop checks for surrounding tiles if it was clicked or if there are bombs near it in 8 directions then prints it accordingly
 
         int num = 0;
+
         for(int i=0;i<5;i++){
             for (int j =0;j<5;j++){
                 // Checks if the tile was clicked
