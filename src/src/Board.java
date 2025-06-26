@@ -19,6 +19,8 @@ public class Board {
 
     int bombLimit;
 
+    int flagCounter;
+
     // Access the Tiles
     Tile[][] board;
 
@@ -30,10 +32,13 @@ public class Board {
         // Is needed because the constructors are not initialized yet and is 0 at default
         // THis is apparently needed when you determine the values on another class and not on the object itself
         this.board = new Tile[boardHeight][boardWidth];
+
+        // Sets the number of bombs in the game to the flag counter
+        this.flagCounter = bombLimit;
     }
 
     // BOARD SETUP
-    public void sampleBoard(){
+    public void createBoard(){
         int tileIndex = 0;
         //Make sample board
         for(int i=0;i<boardHeight;i++){
@@ -41,12 +46,20 @@ public class Board {
                 // Create an object inside a 2d array on each iteration and uses the values of i and j to fill out the 2d array
                 board[i][j] = new NormalTile(tileIndex, false);
 
+                // Implements proper spacing
+                if (tileIndex+1 <= 10){
+                    System.out.print(tileIndex+1 + "  ");
+                } else{
+                    System.out.print(tileIndex+1 + " ");
+                }
+
                 tileIndex++;
             }
+            System.out.println();
         }
     }
 
-    public void createBoard(int startingSpot){
+    public void addBombs(int startingSpot){
         // Creates a board
 
         Random random = new Random();
@@ -87,18 +100,26 @@ public class Board {
 
         for(int i=0;i<boardHeight;i++){
             for (int j =0;j<boardWidth;j++){
-                // Checks if the tile was clicked
-                if (board[i][j].isClicked){
-                    if (board[i][j].isBomb()){
-                        System.out.print("@");
-                    } else if (checkSurroundingBombs(i, j) == 0) {
-                        System.out.print("0");
-                    } else if (checkSurroundingBombs(i, j) != 0) {
-                        System.out.print(checkSurroundingBombs(i, j));
+                // Checks if the tile was Flagged
+                if (!board[i][j].isFlagged){
+                    // Checks if the tile was clicked
+                    if (board[i][j].isClicked){
+                        if (board[i][j].isBomb()){
+                            System.out.print("@");
+                        } else if (checkSurroundingBombs(i, j) == 0) {
+                            System.out.print("0");
+                        } else if (checkSurroundingBombs(i, j) != 0) {
+                            System.out.print(checkSurroundingBombs(i, j));
+                        }
+                    } else {
+                        System.out.print("=");
                     }
-                } else {
-                    System.out.print("=");
+                } else{
+                    System.out.print("?");
                 }
+
+                // Implements Spacing
+                System.out.print(" ");
 
             }
             System.out.println();
@@ -113,17 +134,46 @@ public class Board {
 
         for (int i=0;i<boardHeight;i++){
             for (int j=0;j<boardWidth;j++){
-                if (tileIndex == choice-1){
+                if (tileIndex == choice-1 && !board[i][j].isFlagged){
                     board[i][j].revealTile();
                     // Checks if there is surrounding bombs near the input and if there is none then you just clear everything around it on 8 directions
                     if (checkSurroundingBombs(i, j) == 0){
                         clearSurrounding(i, j);
                     }
                 }
-
                 tileIndex++;
             }
         }
+
+    }
+
+    public void flagTile(int inputIndex){
+        int tileIndex = 0;
+
+        for(int i=0;i<boardHeight;i++){
+            for (int j =0;j<boardWidth;j++){
+                // Compared the index to the input minus one so it's both 0 based and tile has to be unrevealed first
+                if (tileIndex == inputIndex-1 && !board[i][j].isClicked){
+                    // Checks if tile is not flagged yet and if not then it flags it
+                    if (!board[i][j].isFlagged){
+                        board[i][j].flagTile();
+                        // Reduces 1 to the flag counter
+                        flagCounter--;
+                    } else{
+                        // If flagged already then remove the flag
+                        board[i][j].isFlagged = false;
+                        // Adds 1 to the flag counter
+                        flagCounter++;
+                    }
+                }
+                tileIndex++;
+            }
+        }
+    }
+
+    public void currentFlags(){
+        // prints the number of bombs based on flags
+        System.out.println("Bombs left: " + flagCounter);
     }
 
     public String winLose(){
