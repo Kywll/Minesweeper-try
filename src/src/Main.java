@@ -22,8 +22,9 @@ public class Main {
         game.askForRestart();
 
         // June 27, 2025 TO DO:
-        // Make it so you can choose the board size and the number of bombs
-        // Add Hint option
+        // Make it so you can choose the board size and the number of bombs - done
+        // Add Hint option - done
+        // input validation and better hint system
         // TO BE CONTINUED:
         // Learn how to use graphics then implement some basic ones
 

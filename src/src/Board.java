@@ -270,6 +270,17 @@ public class Board {
         }
     }
 
+    public void hint(){
+        for(int i=0;i<boardHeight;i++){
+            for(int j=0;j<boardWidth;j++){
+                //Checks if it's a bomb then flags it if yes
+                if(board[i][j].isBomb()){
+                    board[i][j].flagTile();
+                }
+            }
+        }
+    }
+
     // PRIVATE HELPERS
     private int checkSurroundingBombs(int row, int column){
         // Placed the directions of the coordinates for the board positions around the selected tile.

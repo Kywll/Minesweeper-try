@@ -37,6 +37,15 @@ public class Game {
         return tileNumber;
     }
 
+    public String inputHint(){
+        // Ask player if they want to use hint
+        Scanner input = new Scanner(System.in);
+        System.out.println("Type 'Yes' if you want to get a hint and 'No' if not: ");
+        String hintOrNot = input.nextLine().toLowerCase();
+
+        return hintOrNot;
+    }
+
     //Thought Process:
     //Make a Game Board where you can detect surroundings
     //Have Random Bombs
@@ -66,18 +75,24 @@ public class Game {
             // Check if you've won
             String winLoseStatus = board.winLose();
             if (!winLoseStatus.equals("Win") && !winLoseStatus.equals("Lose")){
-                // Asks the user if they want to flag or not each iteration
-                String flagOrReveal = inputType();
-                // Checks first if the user wants to flag or not
-                if (flagOrReveal.equals("f")){
-                    // If yes then it flags it
-                    board.flagTile(playerInput());
+                // Asks the user if they want to get a hint
+                if (inputHint().equals("yes")){
+                    board.hint();
+                } else{
+                    // Asks the user if they want to flag or not each iteration
+                    String flagOrReveal = inputType();
+                    // Checks first if the user wants to flag or not
+                    if (flagOrReveal.equals("f")){
+                        // If yes then it flags it
+                        board.flagTile(playerInput());
+                    }
+                    else if (flagOrReveal.equals("r")){
+                        // If not then it reveals the tile
+                        //Ask for player input and actually play the game
+                        board.tileInput(playerInput());
+                    }
                 }
-                else if (flagOrReveal.equals("r")){
-                    // If not then it reveals the tile
-                    //Ask for player input and actually play the game
-                    board.tileInput(playerInput());
-                }
+
                 //Display the board
                 board.displayBoard();
                 // Display the number of flags
