@@ -15,6 +15,17 @@ public class Main {
     public static void main(String[] args){
         Game game = new Game();
 
+        // Call the game
         game.play();
+
+        // Ask the player if they want to restart and if they said yes then restart the game
+        game.askForRestart();
+
+        // June 27, 2025 TO DO:
+        // Make it so you can choose the board size and the number of bombs
+        // Add Hint option
+        // TO BE CONTINUED:
+        // Learn how to use graphics then implement some basic ones
+
     }
 }

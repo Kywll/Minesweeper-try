@@ -64,28 +64,71 @@ public class Board {
 
         Random random = new Random();
 
+        // Determines if a tile should have a bomb or not
         int bombChance;
+
+        // Current number of bombs
         int bombNumber = 0;
 
+        // The current iteration of the loop or the index of the board
         int tileIndex = 0;
 
         // So the num in here is 0 based but the startingSpot is 1 based because it need to be used on the input.
         // What I did is to simply subtract 1 inside the createBoard function
         startingSpot -= 1;
 
-        //Make the board
+        // A list of all the position of the tiles around the starting spot
+        Tile[] neighbors = new Tile[8];
+
+        // Create a nested for loop to access i and j for the board position then compares the position of the board to the result of the new row and column
+        for(int i=0;i<boardHeight;i++){
+            for (int j =0;j<boardWidth;j++) {
+                // check if the input is on the current iteration
+                if (tileIndex == startingSpot){
+                    int[] rowDirection = {-1, -1, -1, 0, 0, 1, 1 ,1};
+                    int[] columnDirection = {-1, 0, 1, -1, 1, -1, 0 ,1};
+
+                    for (int n=0;n<neighbors.length;n++){
+                        //pre added the positions
+                        // Uses i and j which is the value of the row and column or the height and width
+                        int newRow = i + rowDirection[n];
+                        int newColumn = j + columnDirection[n];
+
+                        if (newRow >= 0 && newRow < boardHeight && newColumn >= 0 && newColumn < boardWidth) {
+                            // If not out of bounds then check insert the position to the neighbors list and if out of bounds it just puts a null so the index is still correct
+                            neighbors[n] = board[newRow][newColumn];
+                        }
+                    }
+                }
+                tileIndex++;
+            }
+        }
+
+        // MAKE THE BOARD
+        tileIndex = 0;
         for(int i=0;i<boardHeight;i++){
             for (int j =0;j<boardWidth;j++){
+                // Chooses a random number of 1 or 2 and if 1 then the current tile will be a bomb and if not then it will move on to the next and randomize again to choose
                 bombChance = random.nextInt(0, 2);
 
-                // If the bomChance sends a 1 then make a bomb but only if bomb limit has not been reached
-                if (bombChance == 1 && bombNumber < bombLimit && !board[i][j].isClicked){
-                    // Adds bombs on tiles that is not around the tile that was clicked first
-                    if (tileIndex != startingSpot && tileIndex != (startingSpot-6) && tileIndex != (startingSpot-5) && tileIndex != (startingSpot-4) && tileIndex != (startingSpot-1) && tileIndex != (startingSpot+1) && tileIndex != (startingSpot+4) && tileIndex != (startingSpot+5) && tileIndex != (startingSpot+6)) {
-                        // Adds a bomb on the current tile
-                        board[i][j] = new BombTile(tileIndex, false);
-                        bombNumber++;
+                // Determines if the current board is next to the starting position
+                boolean surrounding = false;
+
+                // Loops and check if the current board is a neighbour of the starting position then returns true if yes
+                for (int n=0;n<8;n++){
+                    if (board[i][j] == neighbors[n] && neighbors[n] != null){
+                        surrounding = true;
+                        break;
                     }
+                }
+
+                // Checks if the current tile is not around the starting point
+                // Check if out of bounds
+                // Check first if bomb chance is 1 and bomb limit is not yet reached and the current tile is not clicked and it's not the starting point
+                if (bombChance == 1 && bombNumber < bombLimit && !board[i][j].isClicked && tileIndex != startingSpot && !surrounding) {
+                    // Adds a bomb on the current tile
+                    board[i][j] = new BombTile(tileIndex, false);
+                    bombNumber++;
                 }
 
                 tileIndex++;

@@ -1,6 +1,7 @@
 public abstract class Tile {
     int boardPosition;
-    boolean isClicked;
+    boolean isClicked = false;
+    boolean isFlagged = false;
 
 
     Tile(int boardPosition, boolean isClicked){
@@ -20,11 +21,18 @@ public abstract class Tile {
         return false;
     }
 
+    void flagTile(){
+        // Flags a tile
+
+        isFlagged = true;
+    }
+
     void revealTile(){
         // Reveal the tile upon use
         isClicked = true;
         //System.out.println("Tile has been revealed. Is it a bomb?: " + isBomb());
     }
+
 
 
     // USED FOR DEBUGGING AND CHECKING:
